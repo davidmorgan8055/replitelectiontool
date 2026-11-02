@@ -6,6 +6,7 @@ import { SenatePanel, HousePanel } from "@/components/desk/chambers";
 import { RaceRow } from "@/components/desk/race-row";
 import { Feed, Methodology, PollClosings } from "@/components/desk/side-panels";
 import { Panel } from "@/components/desk/primitives";
+import { StateMap } from "@/components/desk/map/state-map";
 
 export default function Home() {
   const q = useGetElectionData({
@@ -62,6 +63,7 @@ export default function Home() {
           </div>
         ) : (
           <>
+            <StateMap races={data?.races} earlyVote={data?.early_vote} notes={data?.map_notes} />
             <div className="grid gap-5 lg:grid-cols-2">
               <SenatePanel data={st.senate} />
               <HousePanel data={st.house} />

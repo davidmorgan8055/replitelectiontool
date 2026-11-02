@@ -6,6 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './dataSource';
+export * from './earlyVote';
+export * from './earlyVoteState';
+export * from './earlyVoteStates';
 export * from './electionData';
 export * from './electionDataPollClosingsMt';
 export * from './electionDataSeatTracker';
@@ -14,6 +18,9 @@ export * from './healthStatus';
 export * from './race';
 export * from './raceCall';
 export * from './raceCandidatesItem';
+export * from './raceMap';
+export * from './raceMapLeader';
+export * from './raceMapStatus';
 export * from './raceMargin2022';
 export * from './raceMargin2024';
 export * from './racePollingAvg';

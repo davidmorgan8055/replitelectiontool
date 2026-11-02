@@ -29,7 +29,19 @@ export const GetElectionDataResponse = zod.object({
   "margin_2022": zod.record(zod.string(), zod.unknown()).optional(),
   "margin_2024": zod.record(zod.string(), zod.unknown()).optional(),
   "poll_close_mt": zod.string().nullish(),
-  "call": zod.record(zod.string(), zod.unknown()).optional()
+  "call": zod.record(zod.string(), zod.unknown()).optional(),
+  "map": zod.object({
+  "status": zod.union([zod.literal('called'),zod.literal('leading'),zod.literal('not_reporting'),zod.literal(null)]).nullish(),
+  "leader": zod.union([zod.literal('D'),zod.literal('R'),zod.literal(null)]).nullish(),
+  "current_margin": zod.number().nullish(),
+  "projected_margin": zod.number().nullish(),
+  "polling_miss": zod.number().nullish(),
+  "polling_miss_def": zod.string().nullish(),
+  "early_vote_signal": zod.string().nullish(),
+  "early_vote_confidence": zod.string().nullish(),
+  "key": zod.boolean().optional(),
+  "watch": zod.boolean().optional()
+}).optional()
 })).optional(),
   "poll_closings_mt": zod.record(zod.string(), zod.unknown()).optional(),
   "alerts": zod.array(zod.object({
@@ -42,7 +54,24 @@ export const GetElectionDataResponse = zod.object({
   "text": zod.string().nullish(),
   "source_url": zod.string().nullish()
 })).optional(),
-  "notes": zod.array(zod.string()).optional()
+  "notes": zod.array(zod.string()).optional(),
+  "map_notes": zod.array(zod.string()).optional(),
+  "early_vote": zod.object({
+  "compiled_mt": zod.string().nullish(),
+  "tracker": zod.unknown().optional().describe('Owner-supplied tracker name, URL, or source metadata'),
+  "general_caveats": zod.array(zod.string()).optional(),
+  "states": zod.record(zod.string(), zod.object({
+  "figures": zod.unknown().optional().describe('Owner-supplied figures, rendered without assuming a structure'),
+  "sources": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "url": zod.string().optional()
+})).optional(),
+  "signal": zod.string().nullish(),
+  "confidence": zod.string().nullish(),
+  "basis": zod.string().nullish(),
+  "as_of_mt": zod.string().nullish()
+})).optional()
+}).optional()
 })
 
 
@@ -71,7 +100,19 @@ export const UpdateElectionDataBody = zod.object({
   "margin_2022": zod.record(zod.string(), zod.unknown()).optional(),
   "margin_2024": zod.record(zod.string(), zod.unknown()).optional(),
   "poll_close_mt": zod.string().nullish(),
-  "call": zod.record(zod.string(), zod.unknown()).optional()
+  "call": zod.record(zod.string(), zod.unknown()).optional(),
+  "map": zod.object({
+  "status": zod.union([zod.literal('called'),zod.literal('leading'),zod.literal('not_reporting'),zod.literal(null)]).nullish(),
+  "leader": zod.union([zod.literal('D'),zod.literal('R'),zod.literal(null)]).nullish(),
+  "current_margin": zod.number().nullish(),
+  "projected_margin": zod.number().nullish(),
+  "polling_miss": zod.number().nullish(),
+  "polling_miss_def": zod.string().nullish(),
+  "early_vote_signal": zod.string().nullish(),
+  "early_vote_confidence": zod.string().nullish(),
+  "key": zod.boolean().optional(),
+  "watch": zod.boolean().optional()
+}).optional()
 })).optional(),
   "poll_closings_mt": zod.record(zod.string(), zod.unknown()).optional(),
   "alerts": zod.array(zod.object({
@@ -84,7 +125,24 @@ export const UpdateElectionDataBody = zod.object({
   "text": zod.string().nullish(),
   "source_url": zod.string().nullish()
 })).optional(),
-  "notes": zod.array(zod.string()).optional()
+  "notes": zod.array(zod.string()).optional(),
+  "map_notes": zod.array(zod.string()).optional(),
+  "early_vote": zod.object({
+  "compiled_mt": zod.string().nullish(),
+  "tracker": zod.unknown().optional().describe('Owner-supplied tracker name, URL, or source metadata'),
+  "general_caveats": zod.array(zod.string()).optional(),
+  "states": zod.record(zod.string(), zod.object({
+  "figures": zod.unknown().optional().describe('Owner-supplied figures, rendered without assuming a structure'),
+  "sources": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "url": zod.string().optional()
+})).optional(),
+  "signal": zod.string().nullish(),
+  "confidence": zod.string().nullish(),
+  "basis": zod.string().nullish(),
+  "as_of_mt": zod.string().nullish()
+})).optional()
+}).optional()
 })
 
 export const UpdateElectionDataResponse = zod.object({

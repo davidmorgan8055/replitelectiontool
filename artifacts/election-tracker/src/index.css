@@ -392,3 +392,6 @@
 @keyframes pulse-dot { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
 .live-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } * { transition: none !important; } }
+.map-state:focus-visible .map-focus { stroke-width: 3px; stroke-dasharray: none; }
+.map-state:hover .map-focus { stroke-width: 2.5px; }
+.map-state[aria-pressed="true"] .map-focus { stroke-width: 3px; }

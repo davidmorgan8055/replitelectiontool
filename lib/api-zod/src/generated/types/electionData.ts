@@ -5,6 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { EarlyVote } from './earlyVote';
 import type { ElectionDataPollClosingsMt } from './electionDataPollClosingsMt';
 import type { ElectionDataSeatTracker } from './electionDataSeatTracker';
 import type { FeedEntry } from './feedEntry';
@@ -21,5 +22,7 @@ export interface ElectionData {
   alerts?: FeedEntry[];
   calls_log?: FeedEntry[];
   notes?: string[];
+  map_notes?: string[];
+  early_vote?: EarlyVote;
   [key: string]: unknown;
  }

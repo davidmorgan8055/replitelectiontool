@@ -95,6 +95,12 @@ components:
           type: array
           items:
             type: string
+        map_notes:
+          type: array
+          items:
+            type: string
+        early_vote:
+          $ref: "#/components/schemas/EarlyVote"
     Race:
       type: object
       additionalProperties: true
@@ -133,6 +139,76 @@ components:
         call:
           type: object
           additionalProperties: true
+        map:
+          $ref: "#/components/schemas/RaceMap"
+    RaceMap:
+      type: object
+      additionalProperties: true
+      properties:
+        status:
+          type: ["string", "null"]
+          enum: [called, leading, not_reporting, null]
+        leader:
+          type: ["string", "null"]
+          enum: [D, R, null]
+        current_margin:
+          type: ["number", "null"]
+        projected_margin:
+          type: ["number", "null"]
+        polling_miss:
+          type: ["number", "null"]
+        polling_miss_def:
+          type: ["string", "null"]
+        early_vote_signal:
+          type: ["string", "null"]
+        early_vote_confidence:
+          type: ["string", "null"]
+        key:
+          type: boolean
+        watch:
+          type: boolean
+    EarlyVote:
+      type: object
+      additionalProperties: true
+      properties:
+        compiled_mt:
+          type: ["string", "null"]
+        tracker:
+          description: Owner-supplied tracker name, URL, or source metadata
+        general_caveats:
+          type: array
+          items:
+            type: string
+        states:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/EarlyVoteState"
+    EarlyVoteState:
+      type: object
+      additionalProperties: true
+      properties:
+        figures:
+          description: Owner-supplied figures, rendered without assuming a structure
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/DataSource"
+        signal:
+          type: ["string", "null"]
+        confidence:
+          type: ["string", "null"]
+        basis:
+          type: ["string", "null"]
+        as_of_mt:
+          type: ["string", "null"]
+    DataSource:
+      type: object
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+        url:
+          type: string
     FeedEntry:
       type: object
       additionalProperties: true

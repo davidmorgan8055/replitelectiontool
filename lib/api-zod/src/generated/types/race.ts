@@ -7,6 +7,7 @@
  */
 import type { RaceCall } from './raceCall';
 import type { RaceCandidatesItem } from './raceCandidatesItem';
+import type { RaceMap } from './raceMap';
 import type { RaceMargin2022 } from './raceMargin2022';
 import type { RaceMargin2024 } from './raceMargin2024';
 import type { RacePollingAvg } from './racePollingAvg';
@@ -28,5 +29,6 @@ export interface Race {
   /** @nullable */
   poll_close_mt?: string | null;
   call?: RaceCall;
+  map?: RaceMap;
   [key: string]: unknown;
  }

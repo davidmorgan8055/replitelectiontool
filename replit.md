@@ -43,6 +43,9 @@ The frontend polls every 60 seconds. Document timestamps are displayed in Americ
 - Calls only from AP or network decision desks. Model projections must always be labeled independently and are not calls.
 - Results must persist in one shared PostgreSQL row, never an in-memory or file-based store, because Autoscale instances are stateless.
 - Include “Data history on GitHub” linking to https://github.com/davidmorgan8055/election-night-2026-data in a new tab.
+- The original interactive map must use locally bundled public-domain state geometry and only the live results document, never synthetic tracked races. Missing races mean “No tracked race”; missing values mean “No data yet,” not zero.
+- Map views are Senate status, current margin, independent projected margin (not a call), polling miss, and early-vote signal. Polling miss is result minus polling average: positive means Democrats outperformed polling.
+- For the map, use a labeled colorblind-friendly blue-to-orange/red diverging palette, equal scales for both parties, explicit uncertainty, key/watch outlines, and hover/tap/keyboard state details. Show the owner's map notes and early-vote caveats.
 
 ## Gotchas
 

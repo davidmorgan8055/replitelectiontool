@@ -9,6 +9,51 @@ export type ElectionDataSeatTracker = { [key: string]: unknown };
 
 export type ElectionDataPollClosingsMt = { [key: string]: unknown };
 
+/**
+ * @nullable
+ */
+export type RaceMapStatus = typeof RaceMapStatus[keyof typeof RaceMapStatus] | null;
+
+
+export const RaceMapStatus = {
+  called: 'called',
+  leading: 'leading',
+  not_reporting: 'not_reporting',
+} as const;
+
+/**
+ * @nullable
+ */
+export type RaceMapLeader = typeof RaceMapLeader[keyof typeof RaceMapLeader] | null;
+
+
+export const RaceMapLeader = {
+  D: 'D',
+  R: 'R',
+} as const;
+
+export interface RaceMap {
+  /** @nullable */
+  status?: RaceMapStatus;
+  /** @nullable */
+  leader?: RaceMapLeader;
+  /** @nullable */
+  current_margin?: number | null;
+  /** @nullable */
+  projected_margin?: number | null;
+  /** @nullable */
+  polling_miss?: number | null;
+  /** @nullable */
+  polling_miss_def?: string | null;
+  /** @nullable */
+  early_vote_signal?: string | null;
+  /** @nullable */
+  early_vote_confidence?: string | null;
+  key?: boolean;
+  watch?: boolean;
+  [key: string]: unknown;
+ }
+
 export type RaceCandidatesItem = {
   name?: string;
   party?: string;
@@ -40,6 +85,7 @@ export interface Race {
   /** @nullable */
   poll_close_mt?: string | null;
   call?: RaceCall;
+  map?: RaceMap;
   [key: string]: unknown;
  }
 
@@ -50,6 +96,39 @@ export interface FeedEntry {
   text?: string | null;
   /** @nullable */
   source_url?: string | null;
+  [key: string]: unknown;
+ }
+
+export interface DataSource {
+  name?: string;
+  url?: string;
+  [key: string]: unknown;
+ }
+
+export interface EarlyVoteState {
+  /** Owner-supplied figures, rendered without assuming a structure */
+  figures?: unknown;
+  sources?: DataSource[];
+  /** @nullable */
+  signal?: string | null;
+  /** @nullable */
+  confidence?: string | null;
+  /** @nullable */
+  basis?: string | null;
+  /** @nullable */
+  as_of_mt?: string | null;
+  [key: string]: unknown;
+ }
+
+export type EarlyVoteStates = {[key: string]: EarlyVoteState};
+
+export interface EarlyVote {
+  /** @nullable */
+  compiled_mt?: string | null;
+  /** Owner-supplied tracker name, URL, or source metadata */
+  tracker?: unknown;
+  general_caveats?: string[];
+  states?: EarlyVoteStates;
   [key: string]: unknown;
  }
 
@@ -64,6 +143,8 @@ export interface ElectionData {
   alerts?: FeedEntry[];
   calls_log?: FeedEntry[];
   notes?: string[];
+  map_notes?: string[];
+  early_vote?: EarlyVote;
   [key: string]: unknown;
  }
 
