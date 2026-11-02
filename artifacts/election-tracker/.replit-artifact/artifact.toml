@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Election Night 2026 Tracker"
+description = "Strictly nonpartisan public Senate and House election-night results tracker with secure PostgreSQL-backed results updates."
+version = "1.0.0"
+id = "artifacts/election-tracker"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22716
+
+[services.development]
+run = "pnpm --filter @workspace/election-tracker run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/election-tracker", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/election-tracker/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22716"
+BASE_PATH = "/"

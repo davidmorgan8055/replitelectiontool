@@ -11,6 +11,45 @@ tags:
   - name: health
     description: Health operations
 paths:
+  /data:
+    get:
+      operationId: getElectionData
+      summary: Latest election results document
+      responses:
+        "200":
+          description: Current document or awaiting-data placeholder; never cached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ElectionData"
+    post:
+      operationId: updateElectionData
+      summary: Atomically replace the single stored document (server-side updater only)
+      parameters:
+        - in: header
+          name: X-Update-Token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ElectionData"
+      responses:
+        "200":
+          description: Stored
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateReceipt"
+        "400":
+          description: Invalid JSON
+        "401":
+          description: Invalid or absent update token
+        "413":
+          description: Request exceeds 1048576 bytes
   /healthz:
     get:
       operationId: healthCheck
@@ -26,6 +65,92 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   schemas:
+    ElectionData:
+      type: object
+      additionalProperties: true
+      properties:
+        updated_at:
+          type: ["string", "null"]
+        status_note:
+          type: ["string", "null"]
+        seat_tracker:
+          type: object
+          additionalProperties: true
+        races:
+          type: array
+          items:
+            $ref: "#/components/schemas/Race"
+        poll_closings_mt:
+          type: object
+          additionalProperties: true
+        alerts:
+          type: array
+          items:
+            $ref: "#/components/schemas/FeedEntry"
+        calls_log:
+          type: array
+          items:
+            $ref: "#/components/schemas/FeedEntry"
+        notes:
+          type: array
+          items:
+            type: string
+    Race:
+      type: object
+      additionalProperties: true
+      properties:
+        state:
+          type: string
+        candidates:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              name:
+                type: string
+              party:
+                type: string
+        current_margin:
+          type: ["number", "null"]
+        pct_in:
+          type: ["number", "null"]
+        projected_margin:
+          type: ["number", "null"]
+        projection_confidence:
+          type: ["string", "number", "null"]
+        polling_avg:
+          type: object
+          additionalProperties: true
+        margin_2022:
+          type: object
+          additionalProperties: true
+        margin_2024:
+          type: object
+          additionalProperties: true
+        poll_close_mt:
+          type: ["string", "null"]
+        call:
+          type: object
+          additionalProperties: true
+    FeedEntry:
+      type: object
+      additionalProperties: true
+      properties:
+        time_mt:
+          type: ["string", "null"]
+        text:
+          type: ["string", "null"]
+        source_url:
+          type: ["string", "null"]
+    UpdateReceipt:
+      type: object
+      required: [ok, updated_at]
+      properties:
+        ok:
+          type: boolean
+        updated_at:
+          type: string
     HealthStatus:
       type: object
       properties:

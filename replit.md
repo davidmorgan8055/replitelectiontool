@@ -1,6 +1,6 @@
-# [Project name]
+# Election Night 2026 Tracker
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A public, strictly nonpartisan decision desk for the November 3, 2026 U.S. Senate and House midterms.
 
 ## Run & Operate
 
@@ -30,11 +30,19 @@ _Populate as you build — non-obvious choices a reader couldn't infer from the 
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+The owner publishes complete results JSON documents through the token-protected API. This app is a display, not an automatic election-data collector. Never invent candidates, results, poll-closing times, alerts, projections, or calls. Before the first update, show the awaiting-data state.
+
+`GET /api/data` reads the singleton PostgreSQL JSON document without caching. `POST /api/data` atomically replaces it, preserving the submitted document including its `updated_at`; the response timestamp records the storage write. Use `Content-Type: application/json` and server-only `X-Update-Token`, matching the `ADMIN_UPDATE_TOKEN` Secret. The request limit is 1,048,576 bytes. Never include the token in frontend code, committed examples, or logs. The owner must save this Secret through the secure Secrets form before updates can succeed.
+
+The frontend polls every 60 seconds. Document timestamps are displayed in America/Denver time, labeled MT. Submitted poll-close and call times are already MT.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Strictly nonpartisan: slate/gray/white; blue only for Democratic markers and red only for Republican markers, with equal visual treatment.
+- No sign-ups, login, analytics, ads, cookies, or visitor data collection.
+- Calls only from AP or network decision desks. Model projections must always be labeled independently and are not calls.
+- Results must persist in one shared PostgreSQL row, never an in-memory or file-based store, because Autoscale instances are stateless.
+- Include “Data history on GitHub” linking to https://github.com/davidmorgan8055/election-night-2026-data in a new tab.
 
 ## Gotchas
 
