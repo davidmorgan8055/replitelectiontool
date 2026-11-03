@@ -17,3 +17,6 @@ Rules: a race is shown as called only when AP or a network decision desk calls i
 
 ## Local preview
 `python3 -m http.server 8000` then open http://localhost:8000
+
+## Running on Replit
+Import this repo (Create App > Import from GitHub). The included `.replit` file serves it as a plain static site: press Run to preview, or Deploy > Static to publish. There's no build step and no packages to install. Live numbers come from `data.json`, which is updated automatically in this repo; a static Replit deploy shows new data only after you re-pull and redeploy.
