@@ -1,0 +1,12 @@
+# Static site: no build step, no Replit Agent needed.
+modules = ["python-3.11"]
+run = "python3 -m http.server 8080 --bind 0.0.0.0"
+entrypoint = "index.html"
+
+[[ports]]
+localPort = 8080
+externalPort = 80
+
+[deployment]
+deploymentTarget = "static"
+publicDir = "/"
